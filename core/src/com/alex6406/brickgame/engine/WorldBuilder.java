@@ -28,7 +28,7 @@ public class WorldBuilder {
     }
 
     public void load(String filename) throws IOException {
-        BufferedReader bf = Gdx.files.internal(filename).reader(GL20.GL_STENCIL_BUFFER_BIT);
+        BufferedReader bf = Gdx.files.internal(filename).reader(1024);
         int y = -1;
         int[] size = getCount(filename);
         this.width = size[0];
@@ -49,7 +49,7 @@ public class WorldBuilder {
     }
 
     public int[] getCount(String filename) throws IOException {
-        BufferedReader bf = Gdx.files.internal(filename).reader(GL20.GL_STENCIL_BUFFER_BIT);
+        BufferedReader bf = Gdx.files.internal(filename).reader(1024);
         int[] size = new int[2];
         while (bf.ready()) {
             int width2 = bf.readLine().length();

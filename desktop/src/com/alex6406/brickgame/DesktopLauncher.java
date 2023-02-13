@@ -1,5 +1,6 @@
 package com.alex6406.brickgame;
 
+import com.badlogic.gdx.Files;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.alex6406.brickgame.engine.ArkanoidGame;
@@ -11,6 +12,8 @@ public class DesktopLauncher {
 		config.setForegroundFPS(60);
 		config.setWindowedMode(1280, 720);
 		config.setTitle("BrickGame");
+		config.setWindowIcon(Files.FileType.Internal, "icon.png");
+		config.setResizable(false);
 		new Lwjgl3Application(ArkanoidGame.getInstance(), config);
 	}
 }

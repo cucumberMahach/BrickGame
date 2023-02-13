@@ -25,7 +25,7 @@ public class IconPlay extends Actor {
     public void act(float delta) {
         for (int a = 0; a < this.arrows.length; a++) {
             float[] fArr = this.arrows;
-            fArr[a] = fArr[a] + (this.step * delta * 66.0f);
+            fArr[a] = fArr[a] + (this.step * 0.015f * 66.0f);
             if (this.arrows[a] > this.rightBound) {
                 this.arrows[a] = 0.0f;
             }

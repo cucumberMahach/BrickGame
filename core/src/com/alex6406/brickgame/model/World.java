@@ -1,14 +1,11 @@
 package com.alex6406.brickgame.model;
 
+import com.alex6406.brickgame.engine.*;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.alex6406.brickgame.engine.ArkanoidGame;
-import com.alex6406.brickgame.engine.ArkanoidScreen;
-import com.alex6406.brickgame.engine.Loader;
-import com.alex6406.brickgame.engine.WorldBuilder;
 import com.alex6406.brickgame.geometry.Location;
 import com.alex6406.brickgame.geometry.Physics;
 import java.io.IOException;
@@ -24,6 +21,7 @@ import com.alex6406.brickgame.view.LivesLabel;
 import com.alex6406.brickgame.view.ScoreLabel;
 
 public class World extends Stage {
+    private WorldConfig worldConfig;
     private boolean ballBounce;
     private int ballCount;
     private int ballGameCount;
@@ -48,6 +46,8 @@ public class World extends Stage {
 
     public World(Viewport viewport, Batch batch, Loader loader2) {
         super(viewport, batch);
+        worldConfig = new WorldConfig();
+        worldConfig.load();
         this.loader = loader2;
         this.builder = new WorldBuilder(loader2, this);
         this.board = new Board(loader2, this, 0.0f);
@@ -80,7 +80,7 @@ public class World extends Stage {
         if (type2 != -1) {
             this.type = type2;
         }
-        this.level = 1;
+        this.level = worldConfig.getStartLevel();
         this.score = 0;
         this.time = 0.0f;
         switch (this.type) {
@@ -100,8 +100,14 @@ public class World extends Stage {
     }
 
     public void nextLevel() {
-        this.level++;
-        prepareGame(this.level);
+        if (level == worldConfig.getEndLevel()){
+            stopGame();
+            ArkanoidGame.getInstance().getGameData().setData(new int[]{this.level, this.score, (int) this.time});
+            ArkanoidGame.getInstance().showScreen(ArkanoidScreen.Gameover);
+        }else {
+            this.level++;
+            prepareGame(this.level);
+        }
     }
 
     public void prepareGame(int level2) {
